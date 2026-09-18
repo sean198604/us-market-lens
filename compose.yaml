@@ -1,0 +1,18 @@
+services:
+  us-market-lens:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: us-market-lens:latest
+    container_name: us-market-lens
+    restart: unless-stopped
+    ports:
+      - "7022:7022"
+    environment:
+      CENSUS_API_KEY: ${CENSUS_API_KEY:-}
+      IMPORTYETI_API_KEY: ${IMPORTYETI_API_KEY:-}
+      CLOUDFLARE_CF_FETCH_ENABLED: "false"
+      WRANGLER_SEND_METRICS: "false"
+      WRANGLER_WRITE_LOGS: "false"
+    security_opt:
+      - no-new-privileges:true
