@@ -1,6 +1,6 @@
 services:
   us-market-lens:
-    image: us-market-lens:7c15384
+    image: us-market-lens:latest
     container_name: us-market-lens
     restart: unless-stopped
     ports:

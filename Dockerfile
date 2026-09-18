@@ -9,6 +9,10 @@ FROM dependencies AS builder
 COPY . .
 RUN npm run build
 
+FROM dependencies AS production-dependencies
+
+RUN npm prune --omit=dev
+
 FROM node:22-bookworm-slim AS runtime
 
 ENV NODE_ENV=production \
@@ -19,19 +23,15 @@ ENV NODE_ENV=production \
 
 WORKDIR /app
 
-# workerd validates outbound HTTPS against the operating-system trust store.
+# The Node production server validates outbound HTTPS against the OS trust store.
 # The slim Node image does not include it, so public data APIs would fail TLS.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder --chown=node:node /app/package.json /app/package-lock.json ./
-COPY --from=builder --chown=node:node /app/node_modules ./node_modules
-COPY --from=builder --chown=node:node /app/scripts ./scripts
+COPY --from=production-dependencies --chown=node:node /app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /app/dist ./dist
-
-RUN mkdir -p /app/.sites-runtime /app/.wrangler/state \
-    && chown -R node:node /app/.sites-runtime /app/.wrangler
 
 USER node
 

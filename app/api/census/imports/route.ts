@@ -1,11 +1,10 @@
-import { env } from "cloudflare:workers";
-
 const HS_PATTERN = /^(?:\d{2}|\d{4}|\d{6}|\d{10})$/;
 const COUNTRY_PATTERN = /^\d{4}$/;
 const PERIOD_PATTERN = /^\d{4}-(?:0[1-9]|1[0-2])$/;
 
 export async function GET(request: Request) {
-  if (!env.CENSUS_API_KEY) {
+  const censusApiKey = process.env.CENSUS_API_KEY?.trim();
+  if (!censusApiKey) {
     return Response.json({ error: "Census API 尚未配置", code: "source_not_configured" }, { status: 503 });
   }
 
@@ -23,7 +22,7 @@ export async function GET(request: Request) {
     time: period,
     I_COMMODITY: hs,
     CTY_CODE: country,
-    key: env.CENSUS_API_KEY,
+    key: censusApiKey,
   });
   const endpoint = `https://api.census.gov/data/timeseries/intltrade/imports/hs?${query}`;
 

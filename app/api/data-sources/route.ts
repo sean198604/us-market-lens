@@ -1,4 +1,3 @@
-import { env } from "cloudflare:workers";
 import { getTradePartners } from "@/lib/comtrade-reference";
 import { getComtradeClientStatus } from "@/lib/comtrade-client";
 import { fetchJsonCached, getOpenDataCacheStatus } from "@/lib/open-data-client";
@@ -16,6 +15,7 @@ async function checked(id: string, task: () => Promise<unknown>, base: Omit<Chec
 }
 
 export async function GET() {
+  const censusApiKey = process.env.CENSUS_API_KEY?.trim();
   const sources = await Promise.all([
     checked("comtrade", () => getTradePartners(), { name: "UN Comtrade", authority: "United Nations", coverage: "美国进口：来源国 × HS × 年/月", cadence: "月度", companyLevel: false, valueLevel: "官方贸易金额", free: true, keyRequirement: "无需 Key", url: "https://comtradeplus.un.org/" }),
     checked("worldbank", () => fetchJsonCached("world-bank-us-merchandise-imports", "https://api.worldbank.org/v2/country/USA/indicator/TM.VAL.MRCH.CD.WT?format=json&per_page=10", { headers: { Accept: "application/json" } }, 86400000), { name: "World Bank Open Data", authority: "World Bank", coverage: "美国商品进口宏观总额", cadence: "年度", companyLevel: false, valueLevel: "宏观交叉校验", free: true, keyRequirement: "无需 Key", url: "https://data.worldbank.org/indicator/TM.VAL.MRCH.CD.WT" }),
@@ -24,7 +24,7 @@ export async function GET() {
     checked("usaspending", () => fetchJsonCached("usaspending-health", "https://api.usaspending.gov/api/v2/autocomplete/recipient/", { method: "POST", headers: { Accept: "application/json", "Content-Type": "application/json" }, body: JSON.stringify({ search_text: "Apple" }) }, 3600000), { name: "USAspending", authority: "U.S. Department of the Treasury", coverage: "联邦合同、拨款和其他公开奖项受款方", cadence: "按官方提交更新", companyLevel: true, valueLevel: "联邦奖项金额，不是采购额", free: true, keyRequirement: "无需 Key", url: "https://www.usaspending.gov/" }),
   ]);
 
-  const censusConfigured = Boolean(env.CENSUS_API_KEY);
+  const censusConfigured = Boolean(censusApiKey);
   sources.push({
     id: "census", name: "U.S. Census International Trade API", authority: "U.S. Census Bureau",
     coverage: "美国进口：国家 × HS10 × 口岸 × 运输方式", cadence: "月度", companyLevel: false,

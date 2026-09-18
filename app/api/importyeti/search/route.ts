@@ -1,7 +1,6 @@
-import { env } from "cloudflare:workers";
-
 export async function GET(request: Request) {
-  if (!env.IMPORTYETI_API_KEY) {
+  const importYetiApiKey = process.env.IMPORTYETI_API_KEY?.trim();
+  if (!importYetiApiKey) {
     return Response.json({ error: "ImportYeti API 尚未配置", code: "source_not_configured" }, { status: 503 });
   }
   const query = new URL(request.url).searchParams.get("q")?.trim() ?? "";
@@ -12,7 +11,7 @@ export async function GET(request: Request) {
   const params = new URLSearchParams({ name: query, page_size: "10", offset: "0" });
   try {
     const response = await fetch(`https://data.importyeti.com/v1.0/company/search?${params}`, {
-      headers: { IYApiKey: env.IMPORTYETI_API_KEY, Accept: "application/json" },
+      headers: { IYApiKey: importYetiApiKey, Accept: "application/json" },
     });
     const payload = await response.json() as { data?: Array<Record<string, unknown>>; requestCost?: number; creditsRemaining?: number; message?: string };
     if (!response.ok) {

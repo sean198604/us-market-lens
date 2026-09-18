@@ -1,9 +1,8 @@
-import { env } from "cloudflare:workers";
-
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export async function POST(request: Request) {
-  if (!env.IMPORTYETI_API_KEY) {
+  const importYetiApiKey = process.env.IMPORTYETI_API_KEY?.trim();
+  if (!importYetiApiKey) {
     return Response.json({ error: "ImportYeti API 尚未配置", code: "source_not_configured" }, { status: 503 });
   }
   const body = await request.json() as { slug?: string };
@@ -14,7 +13,7 @@ export async function POST(request: Request) {
 
   try {
     const response = await fetch(`https://data.importyeti.com/v1.0/company/${encodeURIComponent(slug)}`, {
-      headers: { IYApiKey: env.IMPORTYETI_API_KEY, Accept: "application/json" },
+      headers: { IYApiKey: importYetiApiKey, Accept: "application/json" },
     });
     const payload = await response.json() as { data?: unknown; requestCost?: number; creditsRemaining?: number; message?: string };
     if (!response.ok) {
