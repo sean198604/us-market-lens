@@ -68,9 +68,11 @@ function NavigationSidebar({ pathname }: { pathname: string }) {
           className="flex min-h-16 items-center gap-2.5 overflow-hidden px-3.5 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
           aria-label="返回市场总览"
         >
-          <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[#2c5aa0] to-[#1a365d] text-white shadow-sm shadow-blue-950/25">
-            <BarChart3 className="size-[18px]" />
-          </span>
+          <span
+            aria-hidden="true"
+            className="size-10 shrink-0 rounded-xl border border-slate-200 bg-white bg-cover bg-center shadow-sm"
+            style={{ backgroundImage: "url('/logo-sean.jpg')" }}
+          />
           <span className="min-w-0 leading-tight group-data-[collapsible=icon]:hidden">
             <span className="block truncate text-[15px] font-extrabold tracking-tight text-[#1a365d]">US Market Lens<span className="text-amber-500">.</span></span>
             <span className="mt-0.5 block truncate text-[10px] tracking-wide text-slate-500">美国进口决策工作台</span>
