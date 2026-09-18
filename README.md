@@ -69,6 +69,10 @@ npm run dev
 npm run lan
 ```
 
+### 服务器反向代理部署
+
+生产服务器可使用 [`deploy/compose.server.yaml`](deploy/compose.server.yaml)，它只把应用绑定到 `127.0.0.1:7022`，再由 [`deploy/nginx/usa.seans.cc.cd.conf`](deploy/nginx/usa.seans.cc.cd.conf) 提供公网反向代理。不要在云安全组中直接开放 7022。
+
 ## ✨ 核心功能
 
 ### 市场总览

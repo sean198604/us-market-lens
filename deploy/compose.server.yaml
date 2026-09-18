@@ -1,0 +1,17 @@
+services:
+  us-market-lens:
+    image: us-market-lens:7c15384
+    container_name: us-market-lens
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:7022:7022"
+    environment:
+      CENSUS_API_KEY: ${CENSUS_API_KEY:-}
+      IMPORTYETI_API_KEY: ${IMPORTYETI_API_KEY:-}
+      CLOUDFLARE_CF_FETCH_ENABLED: "false"
+      WRANGLER_SEND_METRICS: "false"
+      WRANGLER_WRITE_LOGS: "false"
+    mem_limit: 512m
+    pids_limit: 256
+    security_opt:
+      - no-new-privileges:true
