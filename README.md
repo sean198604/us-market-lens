@@ -10,6 +10,8 @@
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
+🌐 **[在线 Demo · usa.seans.cc.cd](https://usa.seans.cc.cd/)**
+
 **关键词 / Keywords**：美国进口数据 · HS 编码 · 来源国分析 · 供应链情报 · 企业公开信息 · 贸易数据可视化 · US import intelligence · trade partner analysis · procurement intelligence
 
 </div>
@@ -27,6 +29,20 @@
 - 每条数据来自哪里、更新时间如何、是否需要 API Key。
 
 > **重要口径**：免费公开源能够可靠回答“美国市场从各国进口了多少”，但不能仅凭公司名称完整还原“某家公司实际向谁采购、采购多少钱”。公司级买卖双方、提单和供应商关系需要 ImportYeti、Panjiva、ImportGenius 等提单数据源。本项目不会把市场总额、SEC 成本或联邦合同金额冒充企业采购额。
+
+## 📸 界面截图
+
+### 市场总览
+
+[![US Market Lens 市场总览](docs/screenshots/overview.png)](https://usa.seans.cc.cd/)
+
+> 按来源地查看年度进口额、重点 HS 品类、五年趋势和最新月度数据。
+
+### 品类深度分析
+
+[![US Market Lens 品类深度分析](docs/screenshots/category-drilldown.png)](https://usa.seans.cc.cd/drilldown?hs=69&partner=156)
+
+> 钻取指定 HS 品类的五年趋势、最近月份、来源地份额、波动率和机会评分。
 
 ## 🚀 快速部署
 
