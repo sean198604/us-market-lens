@@ -207,6 +207,7 @@ IMPORTYETI_API_KEY=
 更详细的产品边界、数据源定义、系统架构、需求演进和后续 AI 接手规则见：
 
 - [US Market Lens 项目说明与 AI 接手手册](docs/AI-PROJECT-HANDOFF.md)
+- [US Market Lens UI 规范与视觉设计说明](docs/UI-DESIGN-SPEC.md)
 
 ## English
 
