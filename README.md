@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/readme-cover.png" alt="US Market Lens project cover" width="100%" /></p>
+
 <div align="center">
 
 # US Market Lens · 美国进口市场情报工作台
